@@ -1,0 +1,13 @@
+spring:
+  # 配置datasource
+  datasource:
+    url: jdbc:mysql///security?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  # 配置spring session
+  session:
+    store-type: none
+security:
+  basic:
+    enabled: false
