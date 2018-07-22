@@ -11,3 +11,9 @@ spring:
 security:
   basic:
     enabled: false
+
+#日志配置
+logging:
+  level:
+    org.szpinc.study.security.test: debug
+    org.szpinc.study.security.web.controller: debug
