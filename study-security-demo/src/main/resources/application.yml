@@ -1,16 +1,22 @@
 spring:
   # 配置datasource
   datasource:
-    url: jdbc:mysql///security?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://192.168.229.128:3306/security?characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   # 配置spring session
   session:
     store-type: none
-security:
-  basic:
-    enabled: false
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    # 设置数据库方言为InnoDB，默认为myasim
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
 #日志配置
 logging:

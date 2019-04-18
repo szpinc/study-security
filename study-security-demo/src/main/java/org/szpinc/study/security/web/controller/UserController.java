@@ -1,15 +1,16 @@
 package org.szpinc.study.security.web.controller;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.szpinc.study.security.dto.User;
+import org.szpinc.study.security.annotation.Json;
+import org.szpinc.study.security.entity.User;
+import org.szpinc.study.security.service.UserService;
 
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -17,25 +18,17 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @JsonView(User.UserSimpleView.class)
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<User> getUsers () {
-        List<User> users = new ArrayList<>();
-        users.add(new User());
-        users.add(new User());
-        users.add(new User());
-        return users;
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/users")
+    @Json(type = User.class, filter = "password")
+    public List<User> getUsers() {
+        return userService.getAllUser();
     }
 
-    @JsonView(User.UserDetailView.class)
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public User getUser (@PathVariable("id")Integer id) {
-        User user = new User();
-        user.setId(1);
-        user.setUsername("szpinc");
-        user.setPassword("123456");
-
-        return user;
+    @GetMapping("/user/add")
+    public void addUser(@RequestParam("username") @NotNull String username, @NotNull @RequestParam("password") String password) {
+        userService.addUser(new User(username, password));
     }
-
 }
